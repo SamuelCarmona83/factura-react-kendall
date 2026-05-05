@@ -28,17 +28,31 @@ const Home = () => {
 		'datosBancarios'
 	]
 
-	const [productos, setProductos] = useState([
+	let productosIniciales = [
 		{ id: 1, nombre: '', precio: "" },
 		{ id: 2, nombre: '', precio: "" },
 		{ id: 3, nombre: '', precio: "" }
+	];
 
-	]);
+	const [productos, setProductos] = useState(productosIniciales);
 
-	const actualizarProducto = (id, campo, valor) => {
-		const nuevosProductos = productos.map((p) =>
-			p.id === id ? { ...p, [campo]: valor } : p
-		);
+	const newProduct = (newId) => {
+		return { id: newId, nombre: "", precio: "" }
+	}
+
+	const actualizarProducto = (idBuscado, campo, valor) => {
+
+
+		const nuevosProductos = productos.map(item => {
+			if (item.id == idBuscado) {
+
+				let itemConNuevoDato = { ...item, [campo]: valor }
+
+				return itemConNuevoDato;
+			}
+			return item
+		});
+
 		setProductos(nuevosProductos);
 	};
 
@@ -91,6 +105,16 @@ const Home = () => {
 							</div>
 						}
 						)}
+
+						<button className="btn btn-success"
+							onClick={() => setProductos([
+								newProduct(productos.length + 1),
+								...productos
+							])}
+						>
+							Agregar producto
+						</button>
+
 					</div>
 
 					{mostrarFactura && (
