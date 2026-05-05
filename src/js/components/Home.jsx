@@ -1,13 +1,32 @@
-import React from "react";
-import { use } from "react";
 import { useState } from "react";
 
-//create your first component
+const FormInput = (props) => {
+	return <div className="mb-3">
+		<label className="form-label">{props.label}</label>
+		<input
+			type={(props.type ? props.type : "text")}
+			className="form-control"
+			value={props.state}
+			onChange={(evt) => props.setState(evt.target.value)}
+		/>
+	</div>
+}
+
 const Home = () => {
+
 	const [nombreCliente, setNombreCliente] = useState('');
+
 	const [numeroFactura, setNumeroFactura] = useState('');
 	const [fecha, setFecha] = useState('');
 	const [datosBancarios, setDatosBancarios] = useState('');
+
+	// TODO: Listar campos dinamicos
+	const camposDelCliente = [
+		'nombreCliente',
+		'numeroFactura',
+		'fecha',
+		'datosBancarios'
+	]
 
 	const [productos, setProductos] = useState([
 		{ id: 1, nombre: '', precio: "" },
@@ -39,44 +58,15 @@ const Home = () => {
 				<form onSubmit={manejarEnvio} className="card p-4 shadow">
 					<h2 className="mb-4">Datos del CLiente</h2>
 
-					<div className="mb-3">
-						<label className="form-label">Nombre del Cliente:</label>
-						<input
-							type="text"
-							className="form-control"
-							value={nombreCliente}
-							onChange={(evt) => setNombreCliente(evt.target.value)}
-						/>
-					</div>
-					<div className="mb-3">
-						<label className="form-label">Numero de Factura:</label>
-						<input
-							type="text"
-							className="form-control"
-							value={numeroFactura}
-							onChange={(evt) => setNumeroFactura(evt.target.value)}
-						/>
-					</div>
-					<div className="mb-3">
-						<label className="form-label">Fecha:</label>
-						<input
-							type="date"
-							className="form-control"
-							value={fecha}
-							onChange={(evt) => setFecha(evt.target.value)}
-						/>
-					</div>
-					<div className="mb-3">
-						<label className="form-label">Datos Bancarios</label>
-						<input
-							type="text"
-							className="form-control"
-							value={datosBancarios}
-							onChange={(evt) => setDatosBancarios(evt.target.value)}
-						/>
-					</div>
-					<h2 className=" mt-4 mb-2">Productos</h2>
+					<FormInput label={"Nombre del Cliente:"} state={nombreCliente} setState={setNombreCliente} />
 
+					<FormInput label={"Numero de Factura:"} state={numeroFactura} setState={setNumeroFactura} />
+
+					<FormInput label={"Fecha:"} state={fecha} setState={setFecha} type="date" />
+
+					<FormInput label={"Datos Bancarios"} state={datosBancarios} setState={setDatosBancarios} />
+
+					<h2 className=" mt-4 mb-2">Productos</h2>
 					<div className="mt-4 mb-3">
 						{productos.map((producto) => {
 							return <div key={producto.id} className="row mb-3">
